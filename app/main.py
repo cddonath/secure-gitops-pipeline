@@ -1,6 +1,22 @@
-def main():
-    return "Secure GitOps Pipeline"
+from fastapi import FastAPI
+
+app = FastAPI(
+    title="Secure GitOps Pipeline",
+    version="1.0.0",
+    description="A secure DevSecOps demonstration project."
+)
 
 
-if __name__ == "__main__":
-    print(main())
+@app.get("/")
+def root():
+    return {
+        "project": "Secure GitOps Pipeline",
+        "version": "1.0.0"
+    }
+
+
+@app.get("/health")
+def health():
+    return {
+        "status": "ok"
+    }
