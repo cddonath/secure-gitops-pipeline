@@ -49,6 +49,16 @@ Container
 - Running instance of an image.
 - Has processes, memory, networking, and logs.
 
+### docker ps
+
+Shows currently running containers.
+
+### docker ps -a
+
+Shows all containers, including stopped ones.
+
+Exit code 0 = application exited successfully.
+
 ---
 
 ### Dockerfile Instructions
@@ -68,5 +78,32 @@ RUN
 CMD
 - Specifies the default command when the container starts.
 
+### Container Hardening
+
+#### Run as non-root user
+
+Practice:
+- Create a dedicated application user inside the image.
+- Run the application as that user instead of root.
+
+Why:
+- Applies the Principle of Least Privilege.
+- Reduces impact if the application is compromised.
+- Helps satisfy common container security scanner checks.
+
+Dockerfile instruction used:
+
+```dockerfile
+RUN useradd -m appuser
+
+## Container Hardening Checklist
+
+- [x] Run as non-root user (`USER`)
+- [x] Use least privilege for file ownership (`chown`)
+- [ ] Minimize image size
+- [ ] Pin base image versions
+- [ ] Scan image for vulnerabilities
+- [ ] Use a minimal base image
+- [ ] Avoid embedding secrets
 
 ## Questions to Research

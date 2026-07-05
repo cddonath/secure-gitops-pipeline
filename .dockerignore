@@ -1,0 +1,7 @@
+.git
+.gitignore
+__pycache--/
+*.__pyc
+.DS_Store
+.vscode/
+NOTES.md
