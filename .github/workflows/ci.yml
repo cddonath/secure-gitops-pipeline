@@ -27,4 +27,7 @@ jobs:
       - name: Run API smoke test
         run: |
           python -c "from app.main import app; print(app.title)"
+
+      - name: Build Docker image
+        run: docker build -t secure-gitops-pipeline:ci .
   
