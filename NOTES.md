@@ -106,4 +106,33 @@ RUN useradd -m appuser
 - [ ] Use a minimal base image
 - [ ] Avoid embedding secrets
 
+
+## Troubleshooting Log
+
+### GitHub Actions workflow failed before creating a job
+
+Problem:
+- A GitHub Actions workflow failed, but no `build` job appeared in the Actions UI.
+- The workflow graph could not be shown.
+
+Cause:
+- The workflow YAML had an indentation error.
+- The `Set up Python` step was accidentally nested under the previous `run: ls -R` command instead of being aligned as its own step.
+
+Fix:
+- Reviewed the full `.github/workflows/ci.yml` file.
+- Corrected the indentation so each workflow step was aligned under `steps:`.
+- Committed and pushed the fix.
+
+Validation:
+- GitHub Actions reran successfully.
+- The workflow completed all steps:
+  - checkout repository
+  - show repository contents
+  - set up Python
+  - install dependencies
+  - run API smoke test
+
+Interview talking point:
+- I debugged a CI failure by first identifying that no job had been created, which suggested the issue was with workflow parsing rather than application code. I inspected the YAML, found an indentation error, corrected it, and verified the fix by rerunning the GitHub Actions workflow successfully.
 ## Questions to Research
