@@ -135,4 +135,22 @@ Validation:
 
 Interview talking point:
 - I debugged a CI failure by first identifying that no job had been created, which suggested the issue was with workflow parsing rather than application code. I inspected the YAML, found an indentation error, corrected it, and verified the fix by rerunning the GitHub Actions workflow successfully.
+
+## CI/CD Pipeline Evolution
+
+### Stage 1
+- Repository checkout
+
+### Stage 2
+- Python installation
+- Dependency installation
+
+### Stage 3
+- FastAPI smoke test
+
+### Stage 4
+- Docker image build
+
+### Next Stage
+- Container vulnerability scanning (Trivy)
 ## Questions to Research
