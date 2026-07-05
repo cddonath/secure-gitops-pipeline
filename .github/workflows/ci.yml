@@ -15,4 +15,15 @@ jobs:
       
       - name: Show repository contents
         run: ls -R
-        
+            - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install Python dependencies
+        run: pip install -r requirements.txt
+
+      - name: Run API smoke test
+        run: |
+          python -c "from app.main import app; print(app.title)"
+  
