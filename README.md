@@ -1,67 +1,246 @@
 # Secure GitOps Pipeline
 
-    This project demonstrates a secure DevSecOps pipeline that builds, scans, and deploys a containerized application to Kubernetes using GitOps principles.
-    ## Project Objectives
+A hands-on DevSecOps project that demonstrates how modern software is built, tested, secured, and prepared for deployment using GitHub Actions, Docker, and GitOps principles.
 
-- Build a small containerized application.
-- Run automated security checks before deployment.
-- Deploy the application to a local Kubernetes cluster.
-- Document the system like it would be handed to an operations team.    
+The goal of this project is not simply to learn individual tools, but to understand how they integrate into a secure software delivery pipeline that mirrors real-world engineering practices.
 
 ---
 
-## Current Progress
+# Project Goals
 
-| Milestone | Status |
-|-----------|--------|
-| Git Repository | ✅ Complete |
-| FastAPI Application | ✅ Complete |
-| Docker Image | ✅ Complete |
-| Run Container Locally | ⏳ In Progress |
-| GitHub Actions CI | ⏳ Planned |
-| Security Scanning | ⏳ Planned |
-| Local Kubernetes (kind) | ⏳ Planned |
-| GitOps (ArgoCD) | ⏳ Planned |
+- Build a containerized FastAPI application.
+- Implement a Continuous Integration (CI) pipeline with GitHub Actions.
+- Automatically execute unit tests on every push.
+- Perform Static Application Security Testing (SAST) with Semgrep.
+- Detect committed secrets using Gitleaks.
+- Scan container images and application dependencies using Trivy.
+- Fail the pipeline on High and Critical vulnerabilities.
+- Deploy the application to Kubernetes using GitOps principles (Tier 2).
 
 ---
 
-## Engineering Journal
+# Current Project Status
 
-### Milestone 1 – Building the Foundation
+| Feature | Status |
+|----------|:------:|
+| Git Repository | ✅ |
+| FastAPI Application | ✅ |
+| Docker Containerization | ✅ |
+| Container Hardening | ✅ |
+| GitHub Actions CI | ✅ |
+| Unit Testing (Pytest) | ✅ |
+| Semgrep SAST | ✅ |
+| Gitleaks Secrets Scan | ✅ |
+| Trivy Container Scan | ✅ |
+| Kubernetes Deployment | ⏳ Tier 2 |
+| GitOps (ArgoCD) | ⏳ Tier 2 |
 
-#### Objective
+---
 
-Establish a repeatable local development environment and package the application into a portable Docker image.
+# Technology Stack
 
-#### Completed
+## Languages
 
-- Initialized a Git repository and connected it to GitHub.
-- Built a FastAPI REST API.
-- Added root (`/`) and health (`/health`) endpoints.
-- Managed Python dependencies using `requirements.txt`.
-- Added a `.gitignore` to exclude generated Python artifacts.
-- Created a Dockerfile from scratch.
-- Built the project's first Docker image.
+- Python 3.11
 
-#### Key Concepts Learned
+## Frameworks
 
-- Git staging vs committing
-- Small, focused commits
-- Why `.gitignore` is important
-- Difference between a Docker image and a Docker container
-- Purpose of Dockerfile instructions:
-  - `FROM`
-  - `WORKDIR`
-  - `COPY`
-  - `RUN`
-  - `CMD`
+- FastAPI
 
-#### Validation
+## Containers
 
-- API successfully ran locally with Uvicorn.
-- `/health` endpoint returned a successful response.
-- Docker image successfully built.
+- Docker
 
-#### Lessons Learned
+## CI/CD
 
-One of the biggest lessons from this milestone was that engineering discipline matters as much as learning new tools. Reading `git status`, staging only intentional changes, verifying each step before moving forward, and keeping the repository in a working state made debugging significantly easier.
+- GitHub Actions
+
+## Testing
+
+- Pytest
+
+## Security
+
+- Semgrep
+- Gitleaks
+- Trivy
+
+---
+
+# CI Pipeline
+
+Every push to the `main` branch automatically performs the following checks:
+
+1. Checkout repository
+2. Install Python
+3. Install project dependencies
+4. Execute unit tests
+5. Run Semgrep SAST scan
+6. Run Gitleaks secrets scan
+7. Build Docker image
+8. Scan Docker image using Trivy
+
+The pipeline intentionally fails whenever High or Critical vulnerabilities are detected.
+
+---
+
+# Pipeline Architecture
+
+```text
+                 Developer
+                     │
+                 git push
+                     │
+                     ▼
+            GitHub Repository
+                     │
+                     ▼
+          GitHub Actions Workflow
+                     │
+ ┌─────────────────────────────────────────────┐
+ │ Checkout Repository                         │
+ │ Install Python                              │
+ │ Install Dependencies                        │
+ │ Run Unit Tests (pytest)                     │
+ │ Run Semgrep SAST                            │
+ │ Run Gitleaks Secrets Scan                   │
+ │ Build Docker Image                          │
+ │ Scan Docker Image (Trivy)                   │
+ └─────────────────────────────────────────────┘
+                     │
+            Pass / Fail Security Gate
+                     │
+                     ▼
+        (Tier 2: Kubernetes + GitOps)
+```
+
+---
+
+# Container Security
+
+Current hardening practices include:
+
+- Running the application as a non-root user
+- Applying the Principle of Least Privilege
+- Using `.dockerignore`
+- Container vulnerability scanning with Trivy
+- Automated security validation within CI
+
+Future hardening goals:
+
+- Multi-stage Docker builds
+- Pinned image digests
+- Read-only container filesystem
+- Image signing with Cosign
+- Software Bill of Materials (SBOM)
+
+---
+
+# Engineering Highlights
+
+Throughout development, several real-world engineering issues were encountered and documented.
+
+Examples include:
+
+- Debugging GitHub Actions YAML syntax errors
+- Resolving Python package import issues in CI
+- Understanding differences between local development and clean CI environments
+- Integrating multiple security tools into a single automated pipeline
+- Learning why a failing security gate can represent a successful security control
+
+A detailed engineering journal is maintained in **NOTES.md**.
+
+---
+
+# Lessons Learned
+
+Some of the biggest takeaways from Tier 1 include:
+
+- Small, focused Git commits simplify debugging.
+- Validate changes locally before automating them.
+- Clean CI environments expose assumptions hidden during local development.
+- Security should be integrated into the development lifecycle rather than added later.
+- A failing security pipeline can indicate that security controls are functioning correctly.
+
+---
+
+# Roadmap
+
+## Tier 1 – Secure CI Pipeline ✅
+
+- Git
+- FastAPI
+- Docker
+- GitHub Actions
+- Pytest
+- Semgrep
+- Gitleaks
+- Trivy
+
+---
+
+## Tier 2 – GitOps
+
+- Kubernetes
+- kind
+- Container Registry
+- Kubernetes Manifests
+- ArgoCD
+- Automated GitOps Deployments
+
+---
+
+## Tier 3 – Enterprise DevSecOps
+
+- Cosign Image Signing
+- SBOM Generation
+- Admission Controllers
+- Policy as Code
+- Supply Chain Security
+- Monitoring & Observability
+
+---
+
+# Running the Project
+
+Clone the repository:
+
+```bash
+git clone <repository-url>
+cd secure-gitops-pipeline
+```
+
+Install dependencies:
+
+```bash
+pip install -r requirements.txt
+```
+
+Run locally:
+
+```bash
+uvicorn app.main:app --reload
+```
+
+Or run using Docker:
+
+```bash
+docker build -t secure-gitops-pipeline .
+
+docker run -p 8000:8000 secure-gitops-pipeline
+```
+
+Application endpoints:
+
+```
+GET /
+GET /health
+```
+
+---
+
+# Why I Built This
+
+This project was created to gain practical experience designing and implementing a modern DevSecOps pipeline rather than simply learning individual tools in isolation.
+
+Each capability was implemented incrementally, tested, documented, and integrated into a Continuous Integration workflow to better understand how secure software delivery is performed in professional engineering environments.
