@@ -30,4 +30,11 @@ jobs:
 
       - name: Build Docker image
         run: docker build -t secure-gitops-pipeline:ci .
-  
+      
+      - name: Scan Docker image with Trivy
+        uses: aquasecurity/trivy-action@v1
+        with:
+          image-ref: secure-gitops-pipeline:ci
+          format: table
+          exit-code: 1
+          severity-threshold: HIGH, CRITICAL
