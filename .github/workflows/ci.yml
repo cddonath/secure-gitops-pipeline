@@ -27,6 +27,11 @@ jobs:
       - name: Run unit tests
         run: PYTHONPATH=.pytest
 
+      - name: Run Semgrep SAST scan
+        uses: semgrep/semgrep-action@v1
+        with:
+          config: p/python
+
       - name: Build Docker image
         run: docker build -t secure-gitops-pipeline:ci .
       
