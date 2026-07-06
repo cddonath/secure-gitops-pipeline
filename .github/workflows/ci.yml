@@ -36,4 +36,4 @@ jobs:
         with:
           image-ref: secure-gitops-pipeline:ci
           exit-code: "1"
-          severity: HIGH, CRITICAL
+          severity: HIGH,CRITICAL
