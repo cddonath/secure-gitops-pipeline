@@ -32,6 +32,9 @@ jobs:
         with:
           config: p/python
 
+      - name: Run Gitleaks Secrets scan
+        uses: gitleaks/gitleaks-action@v2
+
       - name: Build Docker image
         run: docker build -t secure-gitops-pipeline:ci .
       
