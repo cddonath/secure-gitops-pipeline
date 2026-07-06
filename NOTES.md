@@ -157,6 +157,16 @@ Validation:
 Interview talking point:
 - I encountered a situation where my tests worked locally but failed in CI due to differences in Python's import behavior. I diagnosed the `ModuleNotFoundError`, recognized that the application directory wasn't being treated as a package, added an `__init__.py` file, and verified the fix by rerunning the GitHub Actions pipeline.
 
+Follow-up:
+- After adding `app/__init__.py`, the CI workflow still failed with `ModuleNotFoundError`.
+- Confirmed locally that both `app/__init__.py` and `app/main.py` were tracked by Git with git ls-files app"
+- Updated the CI test command from `pytest` to `PYTHONPATH=. pytest`.
+- This made the repository root explicit on Python's module search path in the GitHub Actions runner.
+
+Result:
+- Unit tests passed in CI.
+- The workflow then progressed to the Trivy scan and failed for the intended reason: HIGH/CRITICAL vulnerabilities were detected.
+
 ## CI/CD Pipeline Evolution
 
 ### Stage 1
