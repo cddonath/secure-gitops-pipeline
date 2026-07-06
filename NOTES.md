@@ -136,6 +136,27 @@ Validation:
 Interview talking point:
 - I debugged a CI failure by first identifying that no job had been created, which suggested the issue was with workflow parsing rather than application code. I inspected the YAML, found an indentation error, corrected it, and verified the fix by rerunning the GitHub Actions workflow successfully.
 
+### GitHub Actions unit tests failed with `ModuleNotFoundError`
+
+Problem:
+- Unit tests passed locally but failed in GitHub Actions.
+- Error:
+  ModuleNotFoundError: No module named 'app'
+
+Cause:
+- The `app` directory was missing an `__init__.py` file.
+- While local development was able to resolve the module, the clean GitHub Actions environment required `app` to be recognized as a Python package for imports to work consistently.
+
+Fix:
+- Added an empty `app/__init__.py` file.
+
+Validation:
+- Re-ran the GitHub Actions workflow.
+- Unit tests successfully imported `app.main` and executed.
+
+Interview talking point:
+- I encountered a situation where my tests worked locally but failed in CI due to differences in Python's import behavior. I diagnosed the `ModuleNotFoundError`, recognized that the application directory wasn't being treated as a package, added an `__init__.py` file, and verified the fix by rerunning the GitHub Actions pipeline.
+
 ## CI/CD Pipeline Evolution
 
 ### Stage 1
